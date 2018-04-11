@@ -6,6 +6,7 @@ import List from "../components/slot-list"
 import Input from "../components/input-number"
 import Directive from "../components/my-directive"
 import SubTab from "../components/sub-tab"
+import Tree from "../components/tree"
 
 Vue.use(Router)
 
@@ -40,6 +41,11 @@ export default new Router({
       path: '/SubTab',
       name: 'SubTab',
       component: SubTab
+    },
+    {
+      path: '/Tree',
+      name: 'Tree',
+      component: Tree
     }
   ]
 })
