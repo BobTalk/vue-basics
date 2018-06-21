@@ -2,12 +2,14 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import ParentChildren from '@/components/parent-children/parent-children'
 import Brother from "../components/brother/brother"
+import Tablespan from "../components/tableSpan/colSpan"
 import List from "../components/list-slot/slot-list"
 import Input from "../components/input/input-number"
 import Directive from "../components/directive/my-directive"
 import SubTab from "../components/sub-tab"
 import Tree from "../components/tree"
 import Render from "../components/render/render"
+import Table from "../components/table/table-span"
 
 Vue.use(Router)
 
@@ -22,6 +24,14 @@ export default new Router({
       path: '/brother',
       name: 'Brother',
       component: Brother
+    },{
+      path: '/tablespan',
+      name: 'tablespan',
+      component: Tablespan
+    },{
+      path: '/Table',
+      name: 'Table',
+      component: Table
     },
     {
       path: '/MyList',

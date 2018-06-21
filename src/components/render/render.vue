@@ -18,7 +18,6 @@
       Child,
       "ele": {
         render: function (createElement, context, fn) {
-
           if (this.$slots) {
             for (var key in this.$slots) {
               console.log(this.$slots[key]);
