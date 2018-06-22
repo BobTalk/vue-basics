@@ -139,26 +139,6 @@
             colspan: 0
           };
         }
-        /*   if (columnIndex === 0) {
-             if (row.span > 1) {
-               return {
-                 rowspan: row.span,
-                 colspan: 1
-               };
-             }
-             else if (row.span === 0) {
-               return {
-                 rowspan: 0,
-                 colspan: 0
-               };
-             }
-             else {
-               return {
-                 rowspan: 1,
-                 colspan: 1
-               };
-             }
-           }*/
       }
     }
   }
