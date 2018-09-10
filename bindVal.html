@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<script>
+  /*  var obj = {
+      A: '1',
+      B: '2',
+      C: '3',
+      D: '4'
+    };
+    Object.keys(obj).map((item, index) => {
+      Object.defineProperty(obj, item, {
+        get: function () {
+          console.log("get");
+          return this.item;
+        },
+        set: function (newval, oldval) {
+          console.log("set");
+          return this.item = newval;
+        }
+      })
+    });
+    obj.A = '4232';*/
+  var numNull = {
+    A: '1',
+    B: '2',
+    C: '3',
+    D: '4',
+    E: '5',
+    F: '6',
+    J: '7'
+  };
+
+  function clearNull(num) {
+    for (var key in num) {
+      num[key] = null
+    }
+    return num
+  }
+
+  console.log(numNull);
+  console.log(clearNull(numNull));
+</script>
+<body>
+
+</body>
+</html>
