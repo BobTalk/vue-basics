@@ -10,6 +10,7 @@ import SubTab from "../components/sub-tab"
 import Tree from "../components/tree"
 import Render from "../components/render/render"
 import Table from "../components/table/table-span"
+import lunbo from "../lunbo/lunbo"
 
 Vue.use(Router)
 
@@ -19,6 +20,11 @@ export default new Router({
       path: '/',
       name: 'ParentChildren',
       component: ParentChildren
+    },
+    {
+      path: '/lunbo',
+      name: 'lunbo',
+      component: lunbo
     },
     {
       path: '/brother',
