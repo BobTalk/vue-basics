@@ -11,6 +11,7 @@ import Tree from "../components/tree"
 import Render from "../components/render/render"
 import Table from "../components/table/table-span"
 import lunbo from "../lunbo/lunbo"
+import edit from '../components/edit/use-editor'
 
 Vue.use(Router)
 
@@ -22,6 +23,10 @@ export default new Router({
       component: ParentChildren
     },
     {
+      path: '/edit',
+      name: 'edit',
+      component: edit
+    }, {
       path: '/lunbo',
       name: 'lunbo',
       component: lunbo
@@ -30,11 +35,11 @@ export default new Router({
       path: '/brother',
       name: 'Brother',
       component: Brother
-    },{
+    }, {
       path: '/tablespan',
       name: 'tablespan',
       component: Tablespan
-    },{
+    }, {
       path: '/Table',
       name: 'Table',
       component: Table
