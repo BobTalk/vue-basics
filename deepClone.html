@@ -29,11 +29,11 @@
     Fn: function () {
       console.log(1);
     },
-    arr: [1, 2, 3, 4]
+    arr: [1, 2, 3, 4,[44,545,4342,46464]]
   };
   let b = deepClone(a);
   b.Fn();
-  console.log(a, b);
+  console.log(JSON.stringify(a), JSON.stringify(b));
 </script>
 </body>
 </html>
