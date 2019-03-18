@@ -9,16 +9,16 @@
 			         mode="horizontal"
 			         @select="handleSelect">
 				<template v-for="(item,key) in defaultList[index]">
-					<el-submenu :index="key.toString()">
-						<template slot="title">{{item.title}}</template>
+					<el-submenu :index="key.toString()" :key="key">
+                        <template slot="title">{{item.title}}</template>
 						<template v-for="(val,valIndex) in item.children">
-							<el-menu-item :index="gernerateId(key,valIndex)" :data-path="val.path">{{val.title}}
+							<el-menu-item :index="gernerateId(key,valIndex)" :data-path="val.path" :key="valIndex">{{val.title}}
 							</el-menu-item>
 							<template v-if="val.children.length">
-								<el-submenu :index="gernerateId(key,valIndex)">
+								<el-submenu :index="gernerateId(key,valIndex)" :key="valIndex">
 									<template slot="title">{{val.title}}</template>
 									<template v-for="(v,k) in val.children">
-										<el-menu-item :index="gernerateId(key,valIndex,k)" :data-path="v.path">
+										<el-menu-item :index="gernerateId(key,valIndex,k)" :data-path="v.path" :key="k">
 											{{v.title}}
 										</el-menu-item>
 									</template>
