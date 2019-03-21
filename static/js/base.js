@@ -286,6 +286,7 @@ export default {
     //深拷贝
     deepCopy(obj) {
         var result = Array.isArray(obj) ? [] : {};
+        // var result = new obj.constructor;//等价上一步
         for (var key in obj) {
             if (obj.hasOwnProperty(key)) {
                 if (typeof obj[key] === 'object') {
