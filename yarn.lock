@@ -5338,6 +5338,10 @@ timers-browserify@^2.0.4:
   dependencies:
     setimmediate "^1.0.4"
 
+tinymce@^4.9.0:
+  version "4.9.0"
+  resolved "http://registry.npm.taobao.org/tinymce/download/tinymce-4.9.0.tgz#29589a368c463db6deb5e3981f71e48e88753f7f"
+
 to-arraybuffer@^1.0.0:
   version "1.0.1"
   resolved "http://registry.npm.taobao.org/to-arraybuffer/download/to-arraybuffer-1.0.1.tgz#7d229b1fcc637e466ca081180836a7aabff83f43"
