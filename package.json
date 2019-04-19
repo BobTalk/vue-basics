@@ -11,7 +11,11 @@
   },
   "dependencies": {
     "element-ui": "^2.3.2",
+<<<<<<< HEAD
+    "print-js": "^1.0.54",
+=======
     "tinymce": "^4.9.0",
+>>>>>>> 786fc58afa04371d76bdb2d50ce770a2d81b474d
     "vue": "^2.5.2",
     "vue-router": "^3.0.1"
   },
