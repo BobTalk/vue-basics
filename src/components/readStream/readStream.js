@@ -6,7 +6,7 @@ class ReadStream extends EventEmitter {
         this.path = path;
         this.flags = options.flags || 'r';
         this.mode = options.mode || 438;
-        this.start = options.mode || 0;
+        this.start = options.start || 0;
         this.end = open.end;
         this.autoClose = options.autoClose;
         this.highWaterMark = options.highWaterMark || 64 * 1024;
