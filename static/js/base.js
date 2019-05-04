@@ -1,14 +1,19 @@
 const sessionStorage = window.sessionStorage;
 const JSON = window.JSON;
 export default {
+    //处理字符串是否是字体
+    CheckIsChinese(val) {
+        var reg = new RegExp("[\\u4E00-\\u9FFF]+", "ig");
+        return reg.test(val) ? true : false;
+    },
     //读取cookie
     getCookie(c_name) {
         if (document.cookie.length > 0) {
-            let c_start = document.cookie.indexOf(c_name + "=")
+            let c_start = document.cookie.indexOf(c_name + "=");
             if (c_start != -1) {
-                c_start = c_start + c_name.length + 1
-                let c_end = document.cookie.indexOf(";", c_start)
-                if (c_end == -1) c_end = document.cookie.length
+                c_start = c_start + c_name.length + 1;
+                let c_end = document.cookie.indexOf(";", c_start);
+                if (c_end == -1) c_end = document.cookie.length;
                 return unescape(document.cookie.substring(c_start, c_end))
             }
         }
@@ -16,9 +21,8 @@ export default {
     },
     //设置cookie
     setCookie(c_name, value, expiredays) {
-        console.log(c_name + "=" + value)
-        var exdate = new Date()
-        exdate.setDate(exdate.getDate() + expiredays)
+        var exdate = new Date();
+        exdate.setDate(exdate.getDate() + expiredays);
         document.cookie = c_name + "=" + escape(value) + ((expiredays == null) ? "" : ";expires=" + exdate.toGMTString())
     },
     //读取会话
@@ -27,9 +31,23 @@ export default {
         if (/^\{.*\}$/.test(value)) value = JSON.parse(value);
         return value
     },
+    //读取会话
+    getSession(name) {
+        let value = sessionStorage.getItem(name);
+        if (/^\{.*\}$/.test(value)) value = JSON.parse(value);
+        return value
+    },
     //设置会话
+    setSession(name, value) {
+        if (typeof value === typeof {}) {
+            value = JSON.stringify(value)
+        }
+        return sessionStorage.setItem(name, value)
+    },
     set(name, value) {
-        if (typeof value === typeof {}) value = JSON.stringify(value);
+        if (typeof value === typeof {}) {
+            value = JSON.stringify(value)
+        }
         return sessionStorage.setItem(name, value)
     },
     remove(name) {
@@ -141,6 +159,9 @@ export default {
         if (str.length === 10) {
             str = str * 1000
         }
+        if (typeof str == 'string') {
+            str = Number(str)
+        }
         var date = new Date(str); //时间戳为10位需*1000，时间戳为13位的话不需乘1000
         var year = date.getFullYear();
         var month = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1);
@@ -192,7 +213,6 @@ export default {
         m = timeArray[6]; //日
         if (!!formart) {
             return year + formart + month + formart + day;
-            // return year + formart + month + formart + day + "  " + h + ":" + s + ':' + m;
         } else {
             return year + "-" + month + "-" + day + "  " + h + ":" + s + ":" + m;
         }
@@ -209,7 +229,6 @@ export default {
         tDate = this.doHandleMonth(tDate);
         return tYear + "-" + tMonth + "-" + tDate;
     },
-    //月份不足两位  在前面添加0占位
     doHandleMonth(month) {
         var m = month;
         if (month.toString().length == 1) {
@@ -223,7 +242,15 @@ export default {
     },
     //数字格式化
     formatInt(num) {
-        return Number(num).toFixed(0).replace(/(\d)(?=(\d{3})+)/g, '$1,')
+        num = typeof num == 'number' ? num.toString() : num;
+        let reg = /^(\d{1,3})((?:\d{3})+)$/;
+        return num.replace(reg, function() {
+            var res1 = arguments[1];
+            var res2 = arguments[2];
+            return res1 + ',' + res2.replace(/\d{3}(?!$)/g, function() { // (?!$) 不以其结尾
+                return arguments[0] + ',';
+            })
+        });
     },
     formatNum(data) {
         return data.map((item, key) => {
@@ -263,7 +290,9 @@ export default {
     },
     //标准时间转YYYY-MM-DD
     normalTimeToYMD(d) {
-        return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
+        let month = (d.getMonth() + 1) < 10 ? '0' + (d.getMonth() + 1) : d.getMonth() + 1;
+        let day = d.getDate() < 10 ? '0' + d.getDate() : d.getDate();
+        return d.getFullYear() + '-' + month + '-' + day;
     },
     //获取月份最后一天
     getLastDay(month) {
@@ -275,7 +304,6 @@ export default {
             new_year++; //年份增
         }
         var new_date = new Date(new_year, new_month, 1);
-        //取当年当月中的第一天
         return new_year + '-' + new_month + '-' + (new Date(new_date.getTime() - 1000 * 60 * 60 * 24)).getDate(); //获取当月最后一天日期
     },
     //获取月份第一天
@@ -286,14 +314,13 @@ export default {
     //深拷贝
     deepCopy(obj) {
         var result = Array.isArray(obj) ? [] : {};
-        // var result = new obj.constructor;//等价上一步
         for (var key in obj) {
             if (obj.hasOwnProperty(key)) {
-                if (typeof obj[key] === 'object') {
-                    result[key] = deepCopy(obj[key]); //递归复制
-                } else {
-                    result[key] = obj[key];
-                }
+                /* if (typeof obj[key] === 'object') {
+                     result[key] = this.deepCopy(obj[key]); //递归复制
+                 } else {*/
+                result[key] = obj[key];
+                /*}*/
             }
         }
         return result;
@@ -307,23 +334,57 @@ export default {
         }
         return result;
     },
-    //indexof 去重
-    unitArray(arr) {
-        var arr2 = [];
+    //取出数组中某一对象属性值
+    arrayOneData(arr, prop) {
+        var newArr = [];
         if (Array.isArray(arr)) {
-            for (var i = 0; i < arr.length; i++) {
-                if (arr2.indexOf(arr[i]) < 0) {
-                    arr2.push(arr[i]);
+            arr.forEach(function(item, key) {
+                if (typeof item == 'object') {
+                    newArr.push(item[prop])
+                } else {
+                    newArr.push(item)
                 }
-            }
+            });
+            return newArr
         } else {
             return arr
         }
-        return arr2
+    },
+    //校验当前参数是否是数组
+    isArray(arr) {
+        return Object.prototype.toString.call(arr) == "[object Array]" ? true : false;
+    },
+
+    isIEBrowser() {
+        if (window.addEventListener) {
+            // alert("not ie");
+            return false
+        } else if (window.attachEvent) {
+            // alert("is ie");
+            return true
+        }
+
+    },
+    //添加元素到指定位置
+    addArr(arr, val, index) {
+        if (index > -1) {
+            arr.splice(index, 0, val);
+        }
     }
 }
-
-var stripAll = function (s, d) {
+//数组reduce 原理
+Array.prototype.my_reduce = function(cb, prev) {
+    for (let i = 0; i < this.length; i++) {
+        if (typeof prev !== 'undefined') {
+            prev = cb(prev, this[i], this)
+        } else {
+            prev = cb(this[i], this[++i], this);
+            i++;
+        }
+    }
+    return prev
+};
+var stripAll = function(s, d) {
     var str = "";
     var arr = new Array();
     for (var i = 0; i < s.length; i++) {
@@ -336,4 +397,4 @@ var stripAll = function (s, d) {
     }
     console.log("\"" + str + "\"");
     return str;
-}
+};
